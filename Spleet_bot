@@ -14,9 +14,6 @@ from pyrogram.errors import FloodWait
 from PIL import Image 
 import os,shutil,datetime,time,audioread,cv2
 
- 
-from Cookies_File import Audio_Forms,Video_Forms
-
 
 ######### Constants
 
@@ -31,7 +28,6 @@ Token = Bot_Token
 Token_Identifier = Token.split(':')[0]
 Music_Rmv_Path = f'./Music_Rmv_{Token_Identifier}/'
 Session_file = Token_Identifier +'_session_bot'
-Rmv_Db_Id = f'Rmv_Msg_{Token_Identifier}'
 
 ################
 
@@ -156,6 +152,7 @@ async def Thumbnail_Get(thumb_dir,Media_Path):
       os.system(f"wget -O '{Thumb_Nail}' '{Thumb_Link}' ")
   return Thumb_Nail
             
+
 async def Msg_Dur(Msg):
   if Msg.audio : 
     dur = Msg.audio.duration
@@ -220,6 +217,8 @@ async def spleet_func(rmvmsg,file_path):
   vocal_path = f'{File_Dir+Spleet_Dir}/{New_Name}/vocals.wav'
   vocal_path = await Mp3_Conv(vocal_path)
   return vocal_path
+  
+##############
 
 async def Music_Rmv(rmvmessage,rmvpath,streamdur): 
   streamdur = int(streamdur)
@@ -263,6 +262,7 @@ def _telegram_file(client, message):
       Vid_File = message.download(file_name=Music_Rmv_Path)
       Music_Rmv(message,Music_Rmv_Path,Msg_Dur(message))
       replied.edit_text('تمت الإزالة')
+
 
 async def main():
     if not os.path.exists(Music_Rmv_Path): os.makedirs(Music_Rmv_Path)
