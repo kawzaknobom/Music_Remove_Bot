@@ -1,0 +1,6 @@
+pyrogram
+tgcrypto
+spleeter
+pillow
+audioread
+opencv-python
