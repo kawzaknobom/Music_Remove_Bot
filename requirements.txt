@@ -3,4 +3,4 @@ tgcrypto
 spleeter
 pillow
 audioread
-opencv-python
+opencv-python==4.8.1.78
