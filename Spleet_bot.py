@@ -182,7 +182,7 @@ async def Music_Rmv(rmvmessage,rmvpath,streamdur):
   if streamdur <= seg_per_sec :
     vocal_path = await spleet_func(rmvmessage,rmvpath)
   else :
-    musicrmvlist = rmvpath.split('/')[-1].split('.')[0] + '_Mlist.txt'
+    musicrmvlist =  mainDir + rmvpath.split('/')[-1].split('.')[0] + '_Mlist.txt'
     Parts_Dir = await Aud_Scatter(rmvpath,seg_per_sec)
     with open(musicrmvlist,'a') as f :
       for x in range(0,len(os.listdir(Parts_Dir))):
