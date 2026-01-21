@@ -1,4 +1,5 @@
 import nest_asyncio
+import os
 nest_asyncio.apply()
 
 #########################################################
@@ -13,7 +14,7 @@ from pyrogram.errors import FloodWait
 
 from pathlib import Path
 from PIL import Image
-import os,shutil,datetime,time,audioread
+import shutil,datetime,time,audioread
 
 
 ######### Constants
