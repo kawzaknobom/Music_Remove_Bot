@@ -230,4 +230,4 @@ async def main():
         if bot.is_connected:
             await bot.stop()
 
-main()
+await main()
