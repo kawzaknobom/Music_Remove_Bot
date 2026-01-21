@@ -1,6 +1,6 @@
+spleeter
 pyrogram
 tgcrypto
-spleeter
 pillow
 audioread
-opencv-python==4.8.1.78
+nest_asyncio
