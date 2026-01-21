@@ -194,7 +194,7 @@ async def Music_Rmv(rmvmessage,rmvpath,streamdur):
   if rmvpath.lower().endswith(Video_Forms):
     vocal_path = await Vid_Mk(copymp4,vocal_path)
   await Upld_File(vocal_path,rmvmessage)
-  shutil.rmtree(Music_Rmv_Path)
+  shutil.rmtree('/content/Music_Remove_Bot'+ Music_Rmv_Path[1:])
 
 ######## Bot Cmds ####
 
