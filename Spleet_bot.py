@@ -220,14 +220,14 @@ async def _telegram_file(client, message):
       await replied.edit_text('تمت الإزالة')
 
 
-async def main():
+def main():
     if not os.path.exists(Music_Rmv_Path): os.makedirs(Music_Rmv_Path)
     try:
-        await bot.start()
+        bot.start()
         print("✅ Music Removal Bot is ONLINE!")
-        await idle()
+        idle()
     finally:
         if bot.is_connected:
-            await bot.stop()
+            bot.stop()
 
-await main()
+main()
