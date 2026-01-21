@@ -24,7 +24,7 @@ Api_Hash = '3600ce5f8f9b9e18cba0f318fa0e3600'
 Audio_Forms = (".mp3",".ogg",".m4a",".aac",".flac",".wav",".wma",".opus",".3gpp")
 Video_Forms = (".mp4",".mkv",".mov",".avi",".wmv",".avchd",".webm",".flv")
 Image_forms = (".jpg",".png",'.tif','webp')
-seg_per_sec = 600
+seg_per_sec = 60
 Loop_Status = False
 Token = str(Bot_Token)
 Token_Identifier = Token.split(':')[0]
@@ -194,7 +194,6 @@ async def Music_Rmv(rmvmessage,rmvpath,streamdur):
   if rmvpath.lower().endswith(Video_Forms):
     vocal_path = await Vid_Mk(copymp4,vocal_path)
   await Upld_File(vocal_path,rmvmessage)
-  shutil.rmtree('/content/Music_Remove_Bot'+ Music_Rmv_Path[1:])
 
 ######## Bot Cmds ####
 
