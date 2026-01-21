@@ -162,7 +162,6 @@ async def spleet_func(rmvmsg,file_path):
   os.rename(file_path,New_File)
   file_path = New_File
   Spleet_Dir = 'Spleet_Dir'
-  await Check_Dir(File_Dir+Spleet_Dir)
   Spleeter_Cmd = f"spleeter separate -p spleeter:2stems -o '{File_Dir+Spleet_Dir}' '{file_path}'"
   os.system(Spleeter_Cmd)
   vocal_path = f'{File_Dir+Spleet_Dir}/{New_Name}/vocals.wav'
