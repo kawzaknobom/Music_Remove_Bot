@@ -5,7 +5,6 @@ nest_asyncio.apply()
 #########################################################
 
 Bot_Token = os.getenv('TOKEN')
-print(Bot_Token)
 
 ########################################################
 
@@ -164,11 +163,7 @@ async def spleet_func(rmvmsg,file_path):
   file_path = New_File
   Spleet_Dir = 'Spleet_Dir'
   await Check_Dir(File_Dir+Spleet_Dir)
-  if os.path.isdir(File_Dir+Spleet_Dir):
-    print('trueeeeeeeeeeee')
-  else :
-    print('fasleeeeeeeeee')
-  Spleeter_Cmd = f"spleeter separate -p spleeter:2stems -o '{File_Dir}' '{file_path}'"
+  Spleeter_Cmd = f"spleeter separate -p spleeter:2stems -o '{File_Dir+Spleet_Dir}' '{file_path}'"
   os.system(Spleeter_Cmd)
   vocal_path = f'{File_Dir+Spleet_Dir}/{New_Name}/vocals.wav'
   vocal_path = await Mp3_Conv(vocal_path)
@@ -177,13 +172,11 @@ async def spleet_func(rmvmsg,file_path):
 ##############
 
 async def Music_Rmv(rmvmessage,rmvpath,streamdur):
-  print(rmvpath)
   streamdur = int(streamdur)
   if streamdur == 0 :
     streamdur = await Get_Stream_Dur(rmvpath)
   mainDir = '/'.join(rmvpath.split('/')[:-1]) + '/'
   copymp4 = mainDir +  rmvpath.split('/')[-1].split('.')[0] + '_Copy.mp4'
-  print(copymp4)
   cp_Cmd = f'cp "{rmvpath}" "{copymp4}"'
   os.system(cp_Cmd)
   if streamdur <= seg_per_sec :
