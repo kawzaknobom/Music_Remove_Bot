@@ -96,7 +96,7 @@ async def Thumbnail_Get(Media_Path):
      if not os.path.isfile(Thumb_Nail):
       Thumb_Link = 'https://img1.teletype.in/files/81/52/81521984-f683-4a99-88ff-0c5c8896fd8b.jpeg'
       os.system(f"wget -O '{Thumb_Nail}' '{Thumb_Link}' ")
-  return '/content/' + Thumb_Nail
+    return '/content/' + Thumb_Nail
   
 async def Upld_File(file,Msg):
   try:
