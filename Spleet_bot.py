@@ -14,7 +14,7 @@ from pyrogram.errors import FloodWait
 
 from pathlib import Path
 from PIL import Image
-import shutil,datetime,time,audioread
+import shutil,datetime,time,audioread,cv2
 
 
 ######### Constants
@@ -74,6 +74,56 @@ async def Get_Stream_Dur(File):
   Stream_Dur = int(audioread.audio_open(File).duration)
   return Stream_Dur
 
+async def Cv2_PicCap(Media_Path):
+  mainDir = '/'.join(Media_Path.split('/')[:-1]) + '/'
+  Thumb_Nail = mainDir + Media_Path.split('/')[-1].split('.')[0] + '_Thumb.jpg'
+  try:
+     cam = cv2.VideoCapture(Media_Path)
+     ret, frame = cam.read()
+     cv2.imwrite(Thumb_Nail, frame)
+     cam.release()
+     cv2.destroyAllWindows()
+     return Thumb_Nail
+  except :
+    Media_Path = await Encode_Vid(Media_Path)
+    return await Cv2_PicCap(Media_Path) 
+    
+async def Thumbnail_Get(thumb_dir,Media_Path):
+  Img_File = await Get_File(thumb_dir,Image_forms)
+  if Img_File :
+       Thumb_Nail = Img_File
+       if not Thumb_Nail.lower().endswith(('jpeg')):
+         img = Image.open(Thumb_Nail)
+         width, height = img.size
+         if width > 320 or height > 320:
+          if width > height:
+              new_width = 320
+              new_height = int(height * (320 / width))
+          else:
+              new_height = 320
+              new_width = int(width * (320 / height))
+         img = img.resize((new_width, new_height))
+         mainDir = '/'.join(Thumb_Nail.split('/')[:-1]) + '/'
+         Thumb_Nail = mainDir + Thumb_Nail.split('/')[-1].split('.')[0] + '.jpeg'
+         img.save(Thumb_Nail)
+         file_size = os.path.getsize(Thumb_Nail) / 1024
+         quality = 90
+         while file_size >= 200:
+          img.save(Thumb_Nail, quality=quality)
+          file_size = os.path.getsize(Thumb_Nail) / 1024
+          quality -= 5
+          if quality < 10:
+            break 
+  else :
+    if Media_Path.lower().endswith(Video_Forms) :
+       Thumb_Nail = await Cv2_PicCap(Media_Path)
+    else : 
+     Thumb_Nail = 'Sunnay_Logo.jpg'
+     if not os.path.isfile(Thumb_Nail):
+      Thumb_Link = 'https://img1.teletype.in/files/81/52/81521984-f683-4a99-88ff-0c5c8896fd8b.jpeg'
+      os.system(f"wget -O '{Thumb_Nail}' '{Thumb_Link}' ")
+  return '/content/' + Thumb_Nail
+  
 async def Upld_File(file,Msg):
   try:
     if file != None:
@@ -81,7 +131,8 @@ async def Upld_File(file,Msg):
           RMsg = await Msg.reply_audio(file)
       elif file.lower().endswith(Video_Forms):
         Dur = await Get_Stream_Dur(file)
-        RMsg = await Msg.reply_video(file,caption=os.path.basename(file),duration=Dur)
+        Thumb = await Thumbnail_Get(Dir,file)
+        RMsg = await Msg.reply_video(file,caption=os.path.basename(file),duration=Dur,thumb=Thumb)
       elif file.lower().endswith(Image_forms):
           RMsg = await Msg.reply_photo(file)
       else :
