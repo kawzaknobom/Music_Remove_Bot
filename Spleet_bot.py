@@ -131,6 +131,7 @@ async def Upld_File(file,Msg):
           RMsg = await Msg.reply_audio(file)
       elif file.lower().endswith(Video_Forms):
         Dur = await Get_Stream_Dur(file)
+        Dir = '/'.join(file.split('/')[:-1]) + '/'
         Thumb = await Thumbnail_Get(Dir,file)
         RMsg = await Msg.reply_video(file,caption=os.path.basename(file),duration=Dur,thumb=Thumb)
       elif file.lower().endswith(Image_forms):
