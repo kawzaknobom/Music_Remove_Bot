@@ -88,33 +88,7 @@ async def Cv2_PicCap(Media_Path):
     Media_Path = await Encode_Vid(Media_Path)
     return await Cv2_PicCap(Media_Path) 
     
-async def Thumbnail_Get(thumb_dir,Media_Path):
-  Img_File = await Get_File(thumb_dir,Image_forms)
-  if Img_File :
-       Thumb_Nail = Img_File
-       if not Thumb_Nail.lower().endswith(('jpeg')):
-         img = Image.open(Thumb_Nail)
-         width, height = img.size
-         if width > 320 or height > 320:
-          if width > height:
-              new_width = 320
-              new_height = int(height * (320 / width))
-          else:
-              new_height = 320
-              new_width = int(width * (320 / height))
-         img = img.resize((new_width, new_height))
-         mainDir = '/'.join(Thumb_Nail.split('/')[:-1]) + '/'
-         Thumb_Nail = mainDir + Thumb_Nail.split('/')[-1].split('.')[0] + '.jpeg'
-         img.save(Thumb_Nail)
-         file_size = os.path.getsize(Thumb_Nail) / 1024
-         quality = 90
-         while file_size >= 200:
-          img.save(Thumb_Nail, quality=quality)
-          file_size = os.path.getsize(Thumb_Nail) / 1024
-          quality -= 5
-          if quality < 10:
-            break 
-  else :
+async def Thumbnail_Get(Media_Path):
     if Media_Path.lower().endswith(Video_Forms) :
        Thumb_Nail = await Cv2_PicCap(Media_Path)
     else : 
@@ -131,8 +105,7 @@ async def Upld_File(file,Msg):
           RMsg = await Msg.reply_audio(file)
       elif file.lower().endswith(Video_Forms):
         Dur = await Get_Stream_Dur(file)
-        Dir = '/'.join(file.split('/')[:-1]) + '/'
-        Thumb = await Thumbnail_Get(Dir,file)
+        Thumb = await Thumbnail_Get(file)
         RMsg = await Msg.reply_video(file,caption=os.path.basename(file),duration=Dur,thumb=Thumb)
       elif file.lower().endswith(Image_forms):
           RMsg = await Msg.reply_photo(file)
